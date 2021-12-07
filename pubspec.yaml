@@ -39,6 +39,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   http: ^0.13.4
   flutter_typeahead: ^3.2.3
+  flutter_slidable: ^1.1.0
 
 
 dev_dependencies:
