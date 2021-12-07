@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:frontend_challenge_2/src/providers/weather.dart';
 import 'package:frontend_challenge_2/src/screens/list.dart';
 import 'package:frontend_challenge_2/src/screens/week.dart';
+import 'package:provider/provider.dart';
 
 Future main() async {
   await dotenv.load(fileName: '.env');
-  runApp(const DieselBankChallendApp());
+  runApp(ChangeNotifierProvider(
+      create: (contect) => WeatherProvider(),
+      child: const DieselBankChallendApp()));
 }
 
 class DieselBankChallendApp extends StatelessWidget {
@@ -16,7 +20,7 @@ class DieselBankChallendApp extends StatelessWidget {
     return MaterialApp(
         title: 'Diesel Bank Challenge',
         theme: ThemeData(
-          primarySwatch: Colors.grey,
+          primarySwatch: Colors.lightBlue,
         ),
         initialRoute: '/',
         routes: {
