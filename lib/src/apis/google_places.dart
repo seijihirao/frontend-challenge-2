@@ -5,9 +5,10 @@ import 'package:http/http.dart' as http;
 
 class GooglePlacesService {
 
-  // Base URL used for requests
+  /// Base URL used for requests
   static const String baseUrl = 'maps.googleapis.com';
 
+  /// Searches for all places with similar [text] on google places
   static Future<dynamic> search(String text) async {
     var params = {
       'input': text,
