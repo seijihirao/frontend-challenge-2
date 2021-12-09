@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:frontend_challenge_2/src/models/weather.dart';
 import 'package:frontend_challenge_2/src/providers/weather.dart';
 import 'package:frontend_challenge_2/src/utils/day_color.dart';
+import 'package:frontend_challenge_2/src/widgets/weather_condition.dart';
 import 'package:provider/provider.dart';
 
+/// Screen to list all week data from city
 class ScreenWeatherWeek extends StatelessWidget {
   const ScreenWeatherWeek({Key? key}) : super(key: key);
 
@@ -35,103 +37,78 @@ class ScreenWeatherWeek extends StatelessWidget {
         Weather? weather = weatherProvider.weathers[args.id];
         weatherProvider.updateWeather(weather!);
         weather = weatherProvider.weathers[args.id];
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Essa semana'),
-          ),
-          backgroundColor:
-              DayColor.fromTemperature(weather!.conditions[0].temperature),
-          body: Stack(
-            children: [
-              const Positioned(
-                left: -300,
-                child: Image(
-                  width: 400,
-                  image: NetworkImage(cloudImage),
+        return Hero(
+          tag: weather!.id,
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "Diesel Challenge",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            backgroundColor:
+                DayColor.fromTemperature(weather.conditions[0].temperature),
+            body: Stack(
+              children: [
+                const Positioned(
+                  left: -300,
+                  top: -50,
+                  child: Image(
+                    width: 400,
+                    image: NetworkImage(cloudImage),
+                  ),
                 ),
-              ),
-              const Positioned(
-                left: 250,
-                top: 100,
-                child: Image(
-                  width: 400,
-                  image: NetworkImage(cloudImage),
+                const Positioned(
+                  right: -250,
+                  top: 50,
+                  child: Image(
+                    width: 400,
+                    image: NetworkImage(cloudImage),
+                  ),
                 ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      weather.city.split(",").getRange(0, 2).join("\n"),
-                      textAlign: TextAlign.center,
-                      style: listTextStyle(fontSize: 30.0),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 80.0),
+                      child: SizedBox(
+                        height: 80,
+                        child: Text(
+                          weather.city.split(",").getRange(0, 2).join("\n"),
+                          textAlign: TextAlign.center,
+                          style: listTextStyle(fontSize: 30.0),
+                        ),
+                      ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(5.0),
-                  ),
-                  Center(
-                    child: Text(
-                      weather.conditions[0].temperature.toInt().toString() +
-                          "°C",
-                      style: listTextStyle(fontSize: 40.0),
+                    SizedBox(
+                      height: 80,
+                      child: Text(
+                        weather.conditions[0].temperature.toInt().toString() +
+                            "°C",
+                        style: listTextStyle(fontSize: 40.0),
+                      ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(5.0),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Center(
-                      child: Column(
-                          children: weather.conditions
-                              .asMap()
-                              .entries
-                              .map(
-                                (condition) => Container(
-                                  height: 40.0,
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                        flex: 1,
-                                        child: Image(
-                                          image: NetworkImage(
-                                              'http://openweathermap.org/img/wn/${condition.value.icon}.png'),
-                                        ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.all(10.0),
-                                      ),
-                                      Expanded(
-                                        flex: 3,
-                                        child: Text(
-                                          daysOfWeek[(condition.key +
-                                                  DateTime.now().weekday) %
-                                              7],
-                                          style: listTextStyle(),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          condition.value.temperature
-                                                  .toInt()
-                                                  .toString() +
-                                              "°C",
-                                          style: listTextStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                              .toList()),
+                    Expanded(
+                      flex: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 50.0, right: 30),
+                        child: ListView(
+                            children: weather.conditions
+                                .asMap()
+                                .entries
+                                .map((condition) => WeatherConditionListItem(
+                                      condition: condition.value,
+                                      weekDay: daysOfWeek[(condition.key +
+                                              DateTime.now().weekday) %
+                                          7],
+                                    ))
+                                .toList()),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },

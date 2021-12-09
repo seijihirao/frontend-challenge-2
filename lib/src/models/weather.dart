@@ -20,7 +20,7 @@ class Weather {
 /// Weather condition object, containint [temperature], [pressure] and [humidity]
 class WeatherCondition {
   final String description;
-  final String icon;
+  final String _icon;
   final double temperature;
   final double feelsLike;
   final double temperatureMin;
@@ -28,9 +28,11 @@ class WeatherCondition {
   final int pressure;
   final int humidity;
 
+  String get icon => 'http://openweathermap.org/img/wn/$_icon.png';
+
   WeatherCondition(
       this.description,
-      this.icon,
+      this._icon,
       this.temperature,
       this.feelsLike,
       this.temperatureMin,
