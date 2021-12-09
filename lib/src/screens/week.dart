@@ -74,7 +74,7 @@ class ScreenWeatherWeek extends StatelessWidget {
                       child: SizedBox(
                         height: 80,
                         child: Text(
-                          weather.city.split(",").getRange(0, 2).join("\n"),
+                          weather.city.split(",")[0],
                           textAlign: TextAlign.center,
                           style: listTextStyle(fontSize: 30.0),
                         ),
@@ -91,7 +91,7 @@ class ScreenWeatherWeek extends StatelessWidget {
                     Expanded(
                       flex: 5,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 50.0, right: 30),
+                        padding: const EdgeInsets.only(left: 50.0),
                         child: ListView(
                             children: weather.conditions
                                 .asMap()
