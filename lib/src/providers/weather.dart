@@ -3,9 +3,9 @@ import 'package:frontend_challenge_2/src/apis/openweather.dart';
 import 'package:frontend_challenge_2/src/models/weather.dart';
 
 class WeatherProvider with ChangeNotifier {
-  final List<Weather> _weathers = [];
+  final Map<int, Weather> _weathers = {};
 
-  List<Weather> get weathers => _weathers;
+  Map<int, Weather> get weathers => _weathers;
 
   Future addCity(String city) async {
     Weather? weather = await OpenWeatherService.getCurrent(city);
@@ -13,16 +13,26 @@ class WeatherProvider with ChangeNotifier {
       // TODO: create toast
       return;
     }
-    if (weathers.contains(weather)) {
+    if (_weathers.containsKey(weather.id)) {
       // TODO: create toast
       return;
     }
-    weathers.add(weather);
+    _weathers.addAll({weather.id: weather});
     notifyListeners();
   }
 
-  void removeCity(Weather city) {
-    _weathers.remove(city);
+  Future updateWeather(Weather weather) async {
+    Weather? newWeather = await OpenWeatherService.getWeek(weather);
+    if (newWeather == null) {
+      // TODO: create toast
+      return;
+    }
+    _weathers.update(newWeather.id, (_) => newWeather);
+    notifyListeners();
+  }
+
+  void removeCity(Weather weather) {
+    _weathers.remove(weather.id);
     notifyListeners();
   }
 }
