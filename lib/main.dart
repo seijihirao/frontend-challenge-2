@@ -20,7 +20,7 @@ class DieselBankChallendApp extends StatelessWidget {
     return MaterialApp(
         title: 'Diesel Bank Challenge',
         theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
+          primarySwatch: Colors.grey,
         ),
         initialRoute: '/',
         routes: {
