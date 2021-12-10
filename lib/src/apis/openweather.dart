@@ -20,7 +20,7 @@ class OpenWeatherService {
         headers: {'Accept': 'application/json'});
     var weather = json.decode(response.body);
 
-    if (weather['cod'] == 404) {
+    if (weather == null || weather['cod'] == '404') {
       return null;
     }
 
@@ -49,7 +49,7 @@ class OpenWeatherService {
         headers: {'Accept': 'application/json'});
     var weatherResponse = json.decode(response.body);
 
-    if (weatherResponse['cod'] == 404) {
+    if (weatherResponse == null || weatherResponse['cod'] == '404') {
       return null;
     }
 

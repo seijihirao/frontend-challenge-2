@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:frontend_challenge_2/src/apis/openweather.dart';
 import 'package:frontend_challenge_2/src/models/weather.dart';
 
@@ -10,11 +11,23 @@ class WeatherProvider with ChangeNotifier {
   Future addCity(String city) async {
     Weather? weather = await OpenWeatherService.getCurrent(city);
     if (weather == null) {
-      // TODO: create toast
+      Fluttertoast.showToast(
+        msg: "Location has no weather data :(",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
       return;
     }
     if (_weathers.containsKey(weather.id)) {
-      // TODO: create toast
+      Fluttertoast.showToast(
+        msg: "Location already added",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+      );
       return;
     }
     _weathers.addAll({weather.id: weather});
@@ -24,7 +37,15 @@ class WeatherProvider with ChangeNotifier {
   Future updateWeather(Weather weather) async {
     Weather? newWeather = await OpenWeatherService.getWeek(weather);
     if (newWeather == null) {
-      // TODO: create toast
+      Fluttertoast.showToast(
+        msg: "Location has no weather data :(",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
       return;
     }
     _weathers.update(newWeather.id, (_) => newWeather);
